@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clinic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}"> <!-- прост иконка на вкладке -->
+</head>
+<body>
+<nav>
+    <div class="nav-left">
+        <!-- Проверка на страницу входа и регистрации -->
+        {% if request.path not in ['/login', '/register'] %}
+            <!-- Показываем страницы врачи и мои записи только если не доктор -->
+            {% if session.get("role") != "doctor" %}
+                <a href="/doctors">Врачи</a>
+                <a href="/appointments">Мои записи</a>
+            {% endif %}
+        {% endif %}
+
+        {% if not session.get("user_id") %}
+            <a href="/login">Вход</a>
+            <a href="/register">Регистрация</a>
+        {% endif %}
+
+        <!--А если уж залогинился врач, то ему выводит страницу с записями к нему-->
+        {% if session.get("role") == "doctor" %}
+            <a href="/doctor/appointments">Мои пациенты</a>
+        {% endif %}
+    </div>
+
+    {% if session.get("user_id") %}
+        <div class="nav-right">
+            <a href="/logout">Выход</a>
+        </div>
+    {% endif %}
+</nav>
+{% block content %}{% endblock %}
+
+
+<!--всплывающее окно предупреждающее о наличии записи на это время и указания следующей возможной записи-->
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="flash">
+      {% for message in messages %}
+        <p>{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+</body>
+</html>

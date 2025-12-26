@@ -1,0 +1,6 @@
+<script>
+function confirmDelete() {
+    return confirm("Вы уверены?");
+}
+</script>
+//использую жиэс по максимуму своих возможностей:)

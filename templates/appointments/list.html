@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Мои записи</h2>
+
+<ul>
+{% for a in appointments %}
+    <li>
+        {{ a[1] }} ({{ a[2] }}) — {{ a[3] }}
+
+        <form method="post"
+              action="/appointments/delete/{{ a[0] }}"
+              style="display:inline"
+              onsubmit="return confirm('Отменить запись?')">
+            <button type="submit">Отменить</button>
+        </form>
+    </li>
+{% else %}
+    <li>Записей нет</li>
+{% endfor %}
+</ul>
+{% endblock %}

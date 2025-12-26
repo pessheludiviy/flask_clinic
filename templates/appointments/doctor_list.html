@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Записи ко мне</h2>
+
+<ul>
+{% for a in appointments %}
+    <li>
+        {{ a[1] }} — {{ a[2] }}
+    </li>
+{% else %}
+    <li>Записей нет</li>
+{% endfor %}
+</ul>
+{% endblock %}
